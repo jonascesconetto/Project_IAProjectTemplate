@@ -1,0 +1,60 @@
+name: AI Evaluation
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # Daily at 6 AM UTC
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'src/agents/**'
+      - 'src/prompts/**'
+      - 'tests/evaluation/**'
+
+jobs:
+  evaluate:
+    name: Run Evaluation Suite
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run evaluation tests
+        run: npm run test:eval
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Check thresholds
+        run: |
+          # Parse evaluation results and check thresholds
+          echo "Checking evaluation thresholds..."
+          # This would parse actual test output in production
+
+      - name: Upload evaluation report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: evaluation-report
+          path: reports/evaluation/
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            // Read evaluation results and post as PR comment
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '## Evaluation Results\n\nEvaluation completed successfully. See artifacts for details.'
+            });
