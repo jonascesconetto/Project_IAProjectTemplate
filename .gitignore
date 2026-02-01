@@ -1,0 +1,49 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+build/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Test
+coverage/
+
+# Secrets
+*.pem
+*.key
+credentials.json
+firebase-admin-key.json
+secrets/
+
+# Cache
+.cache/
+.eslintcache
+
+# Temp
+tmp/
+temp/
+
+# Cost reports (generated)
+reports/
+
+# Local Claude settings (keep settings.local.json in repo for template)
+# .claude/settings.local.json

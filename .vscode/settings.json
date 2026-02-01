@@ -1,0 +1,12 @@
+{
+    "code-runner.executorMap": {
+        "typescript": "npx ts-node"
+    },
+    "python-envs.pythonProjects": [
+        {
+            "path": "docs/wiki",
+            "envManager": "ms-python.python:venv",
+            "packageManager": "ms-python.python:pip"
+        }
+    ]
+}
